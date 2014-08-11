@@ -14,10 +14,14 @@ module Audiothority
       summary = Summary.new(stats)
       scanner = Scanner.new(crawler, file_refs, validations, stats)
       scanner.run
-      summary.display($stdout)
+      summary.display(console)
     end
 
     private
+
+    def console
+      @console ||= Thor::Shell::Color.new
+    end
 
     def validations
       @validations ||= [ArtistValidator, AlbumValidator, YearValidator].map(&:new)

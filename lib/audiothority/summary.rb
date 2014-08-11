@@ -6,16 +6,18 @@ module Audiothority
       @stats = stats
     end
 
-    def display(io)
+    def display(console)
       if (invalid = @stats.invalid) && invalid.any?
         invalid.each do |path, violations|
-          io.puts %(#{path} is inconsistent due to:)
+          console.say %(#{path} is inconsistent due to:)
           violations.each do |violation|
-            io.puts %(  ✗ #{violation.error})
+            checkmark = console.set_color(%(  ✗ ), :red, :bold)
+            console.say(checkmark + violation.error)
           end
         end
       else
-        io.puts %(  ✓ All is good, no invalid albums found)
+        checkmark = console.set_color(%(  ✓ ), :green, :bold)
+        console.say(checkmark + %(All is good))
       end
     end
   end
