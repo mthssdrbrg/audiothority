@@ -25,7 +25,7 @@ module Audiothority
     end
 
     def validations
-      @validations ||= [ArtistValidator, AlbumValidator, YearValidator].map(&:new)
+      @validations ||= [ArtistValidator, AlbumValidator, TrackNumberValidator, YearValidator].map(&:new)
     end
   end
 end

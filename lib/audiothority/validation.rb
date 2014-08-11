@@ -54,4 +54,15 @@ module Audiothority
       super(:year)
     end
   end
+
+  class TrackNumberValidator
+    def validate(tags)
+      missing = tags.map(&:track).select(&:zero?)
+      if missing.empty?
+        Validation.new(true)
+      else
+        Validation.new(false, 'track(s) without track numbers')
+      end
+    end
+  end
 end
