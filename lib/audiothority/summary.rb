@@ -21,4 +21,14 @@ module Audiothority
       end
     end
   end
+
+  class PathsOnlySummary < Summary
+    def display(console)
+      if (invalid = @stats.invalid) && invalid.any?
+        invalid.each do |path, _|
+          console.say(File.expand_path(path))
+        end
+      end
+    end
+  end
 end
