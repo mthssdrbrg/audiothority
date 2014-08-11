@@ -12,7 +12,7 @@ module Audiothority
           console.say %(#{path} is inconsistent due to:)
           violations.each do |violation|
             checkmark = console.set_color(%(  ✗ ), :red, :bold)
-            console.say(checkmark + violation.error)
+            console.say(checkmark + violation.message)
           end
         end
       else

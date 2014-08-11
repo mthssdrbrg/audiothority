@@ -2,11 +2,8 @@
 
 module Audiothority
   class Validation
-    attr_reader :error
-
-    def initialize(valid, error=nil)
+    def initialize(valid=true)
       @valid = valid
-      @error = error
     end
 
     def valid?
@@ -18,6 +15,15 @@ module Audiothority
     end
   end
 
+  class Violation < Validation
+    attr_reader :field, :reason, :message
+
+    def initialize(field, reason, message)
+      super(false)
+      @field, @reason, @message = field, reason, message
+    end
+  end
+
   class UniqueValidator
     def initialize(thing)
       @thing = thing
@@ -26,13 +32,11 @@ module Audiothority
     def validate(tags)
       items = tags.map { |t| t.send(@thing) }.uniq
       if items.one?
-        Validation.new(true)
+        Validation.new
       elsif items.empty?
-        Validation.new(false, %(missing #{@thing.inspect}))
+        Violation.new(@thing, :missing, %(missing #{@thing.inspect}))
       elsif items.size > 1
-        Validation.new(false, %(multiple #{@thing}s: #{items.map(&:inspect).join(', ')}))
-      else
-        Validation.new(false, %(unexpected result for #{@thing}: #{items.map(&:inspect).join(', ')}))
+        Violation.new(@thing, :multiple, %(multiple #{@thing}s: #{items.map(&:inspect).join(', ')}))
       end
     end
   end
@@ -59,9 +63,9 @@ module Audiothority
     def validate(tags)
       missing = tags.map(&:track).select(&:zero?)
       if missing.empty?
-        Validation.new(true)
+        Validation.new
       else
-        Validation.new(false, 'track(s) without track numbers')
+        Violation.new(:track, :missing, 'track(s) without track numbers')
       end
     end
   end
