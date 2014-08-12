@@ -2,11 +2,12 @@
 
 module Audiothority
   class Crawler
-    def initialize(dirs)
+    def initialize(dirs, blacklist=[])
       @dirs = dirs
+      @blacklist = blacklist
     end
 
-    def each_crawled
+    def crawl
       @dirs.each do |dir|
         dir.each_child do |path|
           if consider?(path)
@@ -19,21 +20,11 @@ module Audiothority
     private
 
     def consider?(path)
-      path.readable? && path.directory? && path.children.any? && !ignore?(path)
+      path.readable? && path.directory? && path.children.any? && !blacklisted?(path)
     end
 
-    def ignore?(path)
-      blacklist.any? { |r| path.basename.to_s.match(r) }
-    end
-
-    def blacklist
-      @blacklist ||= [
-        /Various.Artists/i,
-        /\/VA/,
-        /OST/,
-        /Original.Soundtrack/i,
-        /Singles/
-      ].freeze
+    def blacklisted?(path)
+      @blacklist.any? { |r| path.basename.to_s.match(r) }
     end
   end
 end

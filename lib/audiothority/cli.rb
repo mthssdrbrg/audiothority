@@ -10,11 +10,10 @@ module Audiothority
     def scan(*paths)
       paths = paths.map { |p| Pathname.new(p) }
       crawler = Crawler.new(paths)
-      file_refs = FileRefs.new
-      stats = Stats.new
-      summary = (options.paths_only? ? PathsOnlySummary : Summary).new(stats)
-      scanner = Scanner.new(crawler, file_refs, validations, stats)
+      tracker = Tracker.new
+      scanner = ScanTask.new(crawler, validations, tracker)
       scanner.run
+      summary = (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
       summary.display(console)
     end
 
@@ -22,15 +21,13 @@ module Audiothority
     def enforce(*paths)
       paths = paths.map { |p| Pathname.new(p) }
       crawler = Crawler.new(paths)
-      file_refs = FileRefs.new
-      stats = Stats.new
-      scanner = Scanner.new(crawler, file_refs, validations, stats)
+      tracker = Tracker.new
+      scanner = ScanTask.new(crawler, validations, tracker)
       scanner.run
-      summary = Summary.new(stats)
+      summary = Summary.new(tracker.state)
       summary.display(console)
-      invalid = stats.invalid
-      if invalid.any? && should_enforce?
-        enforcer = Enforcer.new(invalid, file_refs, console)
+      if tracker.state.any? && should_enforce?
+        enforcer = Enforcer.new(tracker.state, FileRefs.new, console)
         enforcer.run
       end
     end

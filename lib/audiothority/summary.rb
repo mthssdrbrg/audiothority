@@ -2,13 +2,13 @@
 
 module Audiothority
   class Summary
-    def initialize(stats)
-      @stats = stats
+    def initialize(state)
+      @state = state
     end
 
     def display(console)
-      if (invalid = @stats.invalid) && invalid.any?
-        invalid.each do |path, violations|
+      if @state.any?
+        @state.each do |path, violations|
           console.say %(#{path} is inconsistent due to:)
           violations.each do |violation|
             checkmark = console.set_color(%(  ✗ ), :red, :bold)
@@ -24,10 +24,8 @@ module Audiothority
 
   class PathsOnlySummary < Summary
     def display(console)
-      if (invalid = @stats.invalid) && invalid.any?
-        invalid.each do |path, _|
-          console.say(File.expand_path(path))
-        end
+      @state.each do |path, _|
+        console.say(File.expand_path(path))
       end
     end
   end
