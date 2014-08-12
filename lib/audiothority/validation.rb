@@ -40,8 +40,8 @@ module Audiothority
       items = tags.map { |t| t.send(@thing) }.uniq
       if items.one?
         Validation.new
-      elsif items.empty?
-        Violation.new(@thing, :missing, %(missing #{@thing.inspect}))
+      elsif items.compact.empty?
+        Violation.new(@thing, :missing, %(missing #{@thing} field))
       elsif items.size > 1
         Violation.new(@thing, :multiple, %(multiple #{@thing}s: #{items.map(&:inspect).join(', ')}))
       end
