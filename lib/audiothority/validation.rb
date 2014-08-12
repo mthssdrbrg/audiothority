@@ -18,9 +18,16 @@ module Audiothority
   class Violation < Validation
     attr_reader :field, :reason, :message
 
-    def initialize(field, reason, message)
+    def initialize(field, reason, message, changeable=true)
       super(false)
-      @field, @reason, @message = field, reason, message
+      @field = field
+      @reason = reason
+      @message = message
+      @changeable = changeable
+    end
+
+    def changeable?
+      !!@changeable
     end
   end
 
@@ -65,7 +72,7 @@ module Audiothority
       if missing.empty?
         Validation.new
       else
-        Violation.new(:track, :missing, 'track(s) without track numbers')
+        Violation.new(:track, :missing, 'track(s) without track numbers', false)
       end
     end
   end

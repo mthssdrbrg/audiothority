@@ -5,7 +5,7 @@ require 'taglib'
 
 module Audiothority
   class FileRefs
-    def as_tags(paths)
+    def as_tags(paths, options={})
       file_refs = paths.map { |p| TagLib::FileRef.new(p.to_s, false) }
       null_refs = file_refs.select(&:null?)
       if null_refs.any?
@@ -17,6 +17,7 @@ module Audiothority
       end
       yield file_refs.map(&:tag)
     ensure
+      file_refs.each(&:save) if options[:save]
       file_refs.each(&:close) if file_refs
     end
   end

@@ -6,6 +6,7 @@ require 'pathname'
 
 require 'audiothority/cli'
 require 'audiothority/crawler'
+require 'audiothority/enforcer'
 require 'audiothority/file_refs'
 require 'audiothority/scanner'
 require 'audiothority/stats'
