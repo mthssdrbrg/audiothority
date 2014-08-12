@@ -116,7 +116,7 @@ module Audiothority
 
     def choices_from(vs)
       f = vs.each_with_object(Hash.new(0)) { |v, s| s[v] += 1 }
-      f = f.sort_by { |_, v| v }.to_h
+      f = Hash[f.sort_by(&:last)]
       f
     end
   end
