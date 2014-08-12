@@ -3,6 +3,7 @@ script: bundle exec rspec
 before_install:
   - sudo apt-get install libtag1-dev
 rvm:
+  - 1.9
   - 2.0
   - 2.1
   - ruby-head
