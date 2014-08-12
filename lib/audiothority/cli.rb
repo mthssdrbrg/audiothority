@@ -34,12 +34,8 @@ module Audiothority
 
     def run_scan_for(paths)
       paths = paths.map { |p| Pathname.new(p) }
-      task = ScanTask.new(Crawler.new(paths), validations, tracker)
+      task = ScanTask.new(Crawler.new(paths), Validators.defaults, tracker)
       task.run
-    end
-
-    def validations
-      @validations ||= [ArtistValidator, AlbumValidator, TrackNumberValidator, YearValidator].map(&:new)
     end
 
     def tracker

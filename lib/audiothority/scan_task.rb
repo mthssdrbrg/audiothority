@@ -2,9 +2,9 @@
 
 module Audiothority
   class ScanTask
-    def initialize(crawler, validations, tracker, opts={})
+    def initialize(crawler, validators, tracker, opts={})
       @crawler = crawler
-      @validations = validations
+      @validators = validators
       @tracker = tracker
       @extracter = opts[:extracter] || FileRefs.new
     end
@@ -12,7 +12,7 @@ module Audiothority
     def run
       @crawler.crawl do |path|
         @extracter.as_tags(path.children) do |tags|
-          violations = @validations.map { |v| v.validate(tags) }.select(&:invalid?)
+          violations = @validators.map { |v| v.validate(tags) }.select(&:invalid?)
           if violations.any?
             @tracker.mark(path, violations)
           end
