@@ -8,23 +8,13 @@ module Audiothority
     desc 'scan PATHS', 'Scan given paths for inconsistencies'
     method_option :paths_only, type: :boolean, default: false
     def scan(*paths)
-      paths = paths.map { |p| Pathname.new(p) }
-      crawler = Crawler.new(paths)
-      tracker = Tracker.new
-      scanner = ScanTask.new(crawler, validations, tracker)
-      scanner.run
-      summary = (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
+      run_scan_for(paths)
       summary.display(console)
     end
 
     desc 'enforce PATHS', 'Enforce tagging guidelines'
     def enforce(*paths)
-      paths = paths.map { |p| Pathname.new(p) }
-      crawler = Crawler.new(paths)
-      tracker = Tracker.new
-      scanner = ScanTask.new(crawler, validations, tracker)
-      scanner.run
-      summary = Summary.new(tracker.state)
+      run_scan_for(paths)
       summary.display(console)
       if tracker.state.any? && should_enforce?
         enforcer = Enforcer.new(tracker.state, FileRefs.new, console)
@@ -42,8 +32,22 @@ module Audiothority
       @console ||= Thor::Shell::Color.new
     end
 
+    def run_scan_for(paths)
+      paths = paths.map { |p| Pathname.new(p) }
+      task = ScanTask.new(Crawler.new(paths), validations, tracker)
+      task.run
+    end
+
     def validations
       @validations ||= [ArtistValidator, AlbumValidator, TrackNumberValidator, YearValidator].map(&:new)
+    end
+
+    def tracker
+      @tracker ||= Tracker.new
+    end
+
+    def summary
+      (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
     end
   end
 end
