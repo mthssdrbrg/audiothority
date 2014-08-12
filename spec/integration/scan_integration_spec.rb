@@ -20,7 +20,7 @@ describe 'bin/audiothorian scan <PATH>' do
     end
 
     it 'reports inconsistencies in `album` field' do
-      expect { run }.to output(/missing album field/).to_stdout
+      expect { run }.to output(/multiple albums:/).to_stdout
     end
 
     it 'reports inconsistencies in `year` field' do

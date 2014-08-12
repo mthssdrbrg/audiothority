@@ -49,7 +49,7 @@ module Audiothority
     end
   end
 
-  class RewriteChange
+  class RewriteChange < Change
     def initialize(field, tags)
       @field = field
       @tags = tags

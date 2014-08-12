@@ -2,6 +2,7 @@
 
 require 'tmpdir'
 require 'support/cli_setup'
+require 'support/interactive'
 
 
 require 'audiothority'
