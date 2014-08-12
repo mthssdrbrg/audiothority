@@ -5,9 +5,9 @@ require 'thor'
 
 module Audiothority
   class Cli < Thor
-    desc 'check PATHS', 'Check given paths for inconsistencies'
+    desc 'scan PATHS', 'Scan given paths for inconsistencies'
     method_option :paths_only, type: :boolean, default: false
-    def check(*paths)
+    def scan(*paths)
       paths = paths.map { |p| Pathname.new(p) }
       crawler = Crawler.new(paths)
       file_refs = FileRefs.new
