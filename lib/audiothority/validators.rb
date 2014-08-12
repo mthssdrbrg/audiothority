@@ -2,7 +2,7 @@
 
 module Audiothority
   module Validators
-    def self.defaults
+    def self.default
       [Artist, Album, TrackNumber, Year].map(&:new)
     end
   end

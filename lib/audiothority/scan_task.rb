@@ -2,6 +2,14 @@
 
 module Audiothority
   class ScanTask
+    def self.scan(dirs, tracker, opts={})
+      paths = dirs.map { |d| Pathname.new(d) }
+      crawler = Crawler.new(paths)
+      validators = opts[:validators] || Validators.default
+      task = new(crawler, validators, tracker)
+      task.run
+    end
+
     def initialize(crawler, validators, tracker, opts={})
       @crawler = crawler
       @validators = validators

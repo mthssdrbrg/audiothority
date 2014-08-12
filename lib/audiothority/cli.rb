@@ -33,9 +33,7 @@ module Audiothority
     end
 
     def run_scan_for(paths)
-      paths = paths.map { |p| Pathname.new(p) }
-      task = ScanTask.new(Crawler.new(paths), Validators.defaults, tracker)
-      task.run
+      ScanTask.scan(paths, tracker)
     end
 
     def tracker
