@@ -2,14 +2,14 @@
 
 module Audiothority
   class Enforcer
-    def initialize(victims, console, options={})
-      @victims = victims
+    def initialize(suspects, console, options={})
+      @suspects = suspects
       @console = console
       @extract = options[:extract] || Extract.new
     end
 
     def enforce
-      @victims.each do |path, violations|
+      @suspects.each do |path, violations|
         violations = violations.select(&:applicable?)
         @extract.as_tags(path.children, save: true) do |tags|
           changes = violations.map do |violation|
