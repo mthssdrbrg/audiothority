@@ -18,7 +18,7 @@ describe 'bin/audiothorian scan <PATH>' do
     end
 
     it 'prints an `all is good` message' do
-      expect { run }.to_not raise_error # output(/All is good/).to_stdout
+      expect { run }.to output(/All is good/).to_stdout
     end
   end
 
