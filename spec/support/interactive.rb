@@ -7,7 +7,7 @@ module InteractiveSupport
   def interactive(input, &block)
     actual_stdin = $stdin
     new_stdin = Tempfile.new('audiothority-stdin')
-    input.each { |i| new_stdin.puts(i) }
+    new_stdin.puts(input.shift) until input.empty?
     new_stdin.rewind
     $stdin.reopen(new_stdin)
     block.call
