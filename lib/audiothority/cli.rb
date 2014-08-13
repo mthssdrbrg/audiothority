@@ -17,7 +17,7 @@ module Audiothority
       run_scan_for(paths)
       summary.display(console)
       if tracker.state.any? && should_enforce?
-        enforcer = Enforcer.new(tracker.state, Extract.new, console)
+        enforcer = Enforcer.new(tracker.state, console)
         enforcer.run
       end
     end

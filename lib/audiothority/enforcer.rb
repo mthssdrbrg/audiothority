@@ -2,10 +2,10 @@
 
 module Audiothority
   class Enforcer
-    def initialize(victims, extract, console)
+    def initialize(victims, console, options={})
       @victims = victims
-      @extract = extract
       @console = console
+      @extract = options[:extract] || Extract.new
     end
 
     def run
