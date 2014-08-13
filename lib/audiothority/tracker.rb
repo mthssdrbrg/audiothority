@@ -3,15 +3,15 @@
 module Audiothority
   class Tracker
     def initialize
-      @state = {}
+      @suspects = {}
     end
 
-    def state
-      @state.freeze
+    def suspects
+      @suspects.freeze
     end
 
     def mark(path, violations)
-      @state[path] = violations
+      @suspects[path] = violations
     end
   end
 end

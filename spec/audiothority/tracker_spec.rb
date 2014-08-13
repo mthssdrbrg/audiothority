@@ -16,18 +16,18 @@ module Audiothority
     describe '#mark' do
       it 'adds path and violations' do
         tracker.mark('path', violations)
-        expect(tracker.state).to eq({'path' => violations})
+        expect(tracker.suspects).to eq({'path' => violations})
       end
     end
 
-    describe '#state' do
+    describe '#suspects' do
       it 'returns marked paths with violations' do
         tracker.mark('path', violations)
-        expect(tracker.state).to eq({'path' => violations})
+        expect(tracker.suspects).to eq({'path' => violations})
       end
 
-      it 'freezes the returned state' do
-        expect(tracker.state).to be_frozen
+      it 'freezes the returned suspects' do
+        expect(tracker.suspects).to be_frozen
       end
     end
   end

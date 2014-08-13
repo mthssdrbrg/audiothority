@@ -29,8 +29,8 @@ module Audiothority
       if paths.any?
         run_scan_for(paths)
         display_summary
-        if tracker.state.any? && should_enforce?
-          Enforcer.new(tracker.state, console).enforce
+        if tracker.suspects.any? && should_enforce?
+          Enforcer.new(tracker.suspects, console).enforce
         end
       else
         self.class.task_help(console, 'enforce')
@@ -56,13 +56,13 @@ module Audiothority
     end
 
     def display_summary
-      s = (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
+      s = (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.suspects)
       s.display(console)
     end
 
     def throw_in_custody
       if options.custody
-        c = Custodian.new(options.custody, tracker.state)
+        c = Custodian.new(options.custody, tracker.suspects)
         c.throw_in_custody
       end
     end
