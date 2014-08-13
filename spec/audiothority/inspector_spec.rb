@@ -4,8 +4,8 @@ require 'spec_helper'
 
 
 module Audiothority
-  describe ScanTask do
-    let :task do
+  describe Inspector do
+    let :inspector do
       described_class.new(crawler, [validator], tracker, extract: extract)
     end
 
@@ -48,10 +48,10 @@ module Audiothority
     end
 
     before do
-      task.run
+      inspector.investigate
     end
 
-    describe '#run' do
+    describe '#investigate' do
       it 'crawls for paths with violations' do
         expect(crawler).to have_received(:crawl)
       end

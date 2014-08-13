@@ -52,7 +52,7 @@ module Audiothority
     end
 
     def run_scan_for(paths)
-      ScanTask.scan(paths, tracker)
+      Inspector.scan(paths, tracker)
     end
 
     def display_summary
