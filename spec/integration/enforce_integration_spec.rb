@@ -10,6 +10,16 @@ describe 'bin/audiothorian enforce <PATH>' do
     ['enforce', music_dir]
   end
 
+  context 'when invoked without any paths' do
+    let :argv do
+      ['enforce']
+    end
+
+    it 'prints help for the `enforce` command' do
+      expect { run }.to output(/^Usage:\n.+ enforce/).to_stdout
+    end
+  end
+
   it 'presents a list of inconsistent albums' do
     expect do
       interactive(%w[n]) { run }

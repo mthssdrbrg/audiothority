@@ -6,6 +6,16 @@ require 'spec_helper'
 describe 'bin/audiothorian scan <PATH>' do
   include_context 'cli setup'
 
+  context 'when invoked without any paths' do
+    let :argv do
+      ['scan']
+    end
+
+    it 'prints help for the `scan` command' do
+      expect { run }.to output(/^Usage:\n.+ scan/).to_stdout
+    end
+  end
+
   context 'when a directory does not contain inconsistencies' do
     let :argv do
       ['scan', empty_dir]
