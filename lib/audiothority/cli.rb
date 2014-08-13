@@ -25,12 +25,16 @@ module Audiothority
     end
 
     desc 'enforce PATHS', 'Enforce tagging guidelines'
+    method_option :society,
+      desc: 'move enforced directories to a `society` directory',
+      aliases: '-S',
+      type: :string
     def enforce(*paths)
       if paths.any?
         run_scan_for(paths)
         display_summary
         if tracker.suspects.any? && should_enforce?
-          Enforcer.new(tracker.suspects, console).enforce
+          execute_enforcement
         end
       else
         self.class.task_help(console, 'enforce')
@@ -65,6 +69,14 @@ module Audiothority
         c = Custodian.new(options.custody, tracker.suspects)
         c.throw_in_custody
       end
+    end
+
+    def execute_enforcement
+      Enforcer.new(tracker.suspects, console, society: society).enforce
+    end
+
+    def society
+      Society.new(options.society) if options.society
     end
   end
 end

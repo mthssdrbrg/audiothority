@@ -29,13 +29,35 @@ describe 'bin/audiothorian enforce <PATH>' do
   context 'when the user answers `y` / `yes` to enforcement' do
     context ', and selects to perform presented changes' do
       it 'corrects inconsistencies' do
-        interactive(%w[y P]) do
-          expect { run }.to output.to_stdout
-        end
+        interactive(%w[y P]) { run }
         tags_from(%(#{music_dir}/the-album)) do |tags|
           expect(tags.map(&:artist).uniq).to eq(['the artist'])
           expect(tags.map(&:album).uniq).to eq(['the album'])
           expect(tags.map(&:year).uniq).to eq([2001])
+        end
+      end
+
+      context 'and -S / --society option is given' do
+        let :society_dir do
+          File.join(music_dir, 'society')
+        end
+
+        let :argv do
+          ['enforce', music_dir, '-S', society_dir]
+        end
+
+        before do
+          Dir.mkdir(society_dir)
+        end
+
+        it 'moves the enforced entity to society' do
+          interactive(%w[y P]) { run }
+          expect(File.exists?(File.join(society_dir, 'the-album'))).to be true
+          tags_from(%(#{society_dir}/the-album)) do |tags|
+            expect(tags.map(&:artist).uniq).to eq(['the artist'])
+            expect(tags.map(&:album).uniq).to eq(['the album'])
+            expect(tags.map(&:year).uniq).to eq([2001])
+          end
         end
       end
     end

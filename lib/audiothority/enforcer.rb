@@ -6,6 +6,7 @@ module Audiothority
       @suspects = suspects
       @console = console
       @extract = options[:extract] || Extract.new
+      @society = options[:society] || EmptySociety.new
     end
 
     def enforce
@@ -26,6 +27,7 @@ module Audiothority
           end
           if perform_changes?
             changes.each(&:perform)
+            @society.transfer(path)
             @console.say
           end
         end
