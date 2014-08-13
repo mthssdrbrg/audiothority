@@ -6,7 +6,7 @@ require 'spec_helper'
 module Audiothority
   describe ScanTask do
     let :task do
-      described_class.new(crawler, [validator], tracker, extracter: extracter)
+      described_class.new(crawler, [validator], tracker, extract: extract)
     end
 
     let :crawler do
@@ -21,8 +21,8 @@ module Audiothority
       double(:tracker, mark: nil)
     end
 
-    let :extracter do
-      double(:extracter)
+    let :extract do
+      double(:extract)
     end
 
     let :path do
@@ -43,7 +43,7 @@ module Audiothority
 
     before do
       allow(crawler).to receive(:crawl).and_yield(path)
-      allow(extracter).to receive(:as_tags).with(children).and_yield(tags)
+      allow(extract).to receive(:as_tags).with(children).and_yield(tags)
       allow(validator).to receive(:validate).with(tags).and_return(violation)
     end
 
@@ -57,7 +57,7 @@ module Audiothority
       end
 
       it 'extracts tags' do
-        expect(extracter).to have_received(:as_tags).with(children)
+        expect(extract).to have_received(:as_tags).with(children)
       end
 
       it 'validates each tag set' do

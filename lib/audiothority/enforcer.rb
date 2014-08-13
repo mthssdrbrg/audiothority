@@ -2,16 +2,16 @@
 
 module Audiothority
   class Enforcer
-    def initialize(victims, file_refs, console)
+    def initialize(victims, extract, console)
       @victims = victims
-      @file_refs = file_refs
+      @extract = extract
       @console = console
     end
 
     def run
       @victims.each do |path, violations|
         violations = violations.select(&:applicable?)
-        @file_refs.as_tags(path.children, save: true) do |tags|
+        @extract.as_tags(path.children, save: true) do |tags|
           changes = violations.map do |violation|
             field = violation.field
             values = fields_from(tags, field)

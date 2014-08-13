@@ -14,12 +14,12 @@ module Audiothority
       @crawler = crawler
       @validators = validators
       @tracker = tracker
-      @extracter = opts[:extracter] || FileRefs.new
+      @extract = opts[:extract] || Extract.new
     end
 
     def run
       @crawler.crawl do |path|
-        @extracter.as_tags(path.children) do |tags|
+        @extract.as_tags(path.children) do |tags|
           violations = @validators.map { |v| v.validate(tags) }.select(&:invalid?)
           if violations.any?
             @tracker.mark(path, violations)

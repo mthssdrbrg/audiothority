@@ -4,9 +4,13 @@ require 'taglib'
 
 
 module Audiothority
-  class FileRefs
+  class Extract
+    def initialize(file_ref=TagLib::FileRef)
+      @file_ref = file_ref
+    end
+
     def as_tags(paths, options={})
-      file_refs = paths.map { |p| TagLib::FileRef.new(p.to_s, false) }
+      file_refs = paths.map { |p| @file_ref.new(p.to_s, false) }
       null_refs = file_refs.select(&:null?)
       if null_refs.any?
         file_refs = file_refs - null_refs
@@ -17,8 +21,10 @@ module Audiothority
       end
       yield file_refs.map(&:tag)
     ensure
-      file_refs.each(&:save) if options[:save]
-      file_refs.each(&:close) if file_refs
+      if file_refs
+        file_refs.each(&:save) if options[:save]
+        file_refs.each(&:close)
+      end
     end
   end
 end
