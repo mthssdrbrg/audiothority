@@ -64,5 +64,32 @@ describe 'bin/audiothorian scan <PATH>' do
         expect { run }.to output(/\/the-album$/).to_stdout
       end
     end
+
+    context 'with -C / --custody' do
+      let :custody do
+        File.join(music_dir, 'custody')
+      end
+
+      context ', and custody exists' do
+        before do
+          Dir.mkdir(custody)
+        end
+
+        before do
+          run_audiothorian(['scan', music_dir, '-C', custody])
+        end
+
+        it 'moves suspects into custody' do
+          expect(File.exists?(File.join(music_dir, 'custody', 'the-album'))).to be true
+          expect(Dir[%(#{custody}/**/*.mp3)].size).to eq(3)
+        end
+      end
+
+      context ', and custody does not exist' do
+        it 'raises an error' do
+          expect { run_audiothorian(['scan', music_dir, '-C', custody]) }.to raise_error(Audiothority::CustodyTorchedError)
+        end
+      end
+    end
   end
 end
