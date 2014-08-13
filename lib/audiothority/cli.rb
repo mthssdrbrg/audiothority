@@ -10,7 +10,7 @@ module Audiothority
     def scan(*paths)
       if paths.any?
         run_scan_for(paths)
-        summary.display(console)
+        display_summary
       else
         self.class.task_help(console, 'scan')
       end
@@ -20,7 +20,7 @@ module Audiothority
     def enforce(*paths)
       if paths.any?
         run_scan_for(paths)
-        summary.display(console)
+        display_summary
         if tracker.state.any? && should_enforce?
           Enforcer.new(tracker.state, console).enforce
         end
@@ -47,8 +47,9 @@ module Audiothority
       @tracker ||= Tracker.new
     end
 
-    def summary
-      (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
+    def display_summary
+      s = (options.paths_only? ? PathsOnlySummary : Summary).new(tracker.state)
+      s.display(console)
     end
   end
 end
