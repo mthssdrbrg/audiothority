@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'tmpdir'
+require 'ostruct'
 require 'support/cli_setup'
 require 'support/interactive'
 require 'coveralls'
