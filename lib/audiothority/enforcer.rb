@@ -8,7 +8,7 @@ module Audiothority
       @extract = options[:extract] || Extract.new
     end
 
-    def run
+    def enforce
       @victims.each do |path, violations|
         violations = violations.select(&:applicable?)
         @extract.as_tags(path.children, save: true) do |tags|
