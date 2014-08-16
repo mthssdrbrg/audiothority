@@ -12,6 +12,10 @@ the `track` tag is checked for missing tack numbers.
 
 ## Installation
 
+Audiothority depends on `taglib-ruby`, which requires `taglib`.
+See [taglib-ruby](https://github.com/robinst/taglib-ruby) for instructions on
+how to install `taglib` on a few different operating systems.
+
 ```
 gem install audiothority --pre
 ```
