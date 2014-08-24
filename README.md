@@ -17,7 +17,7 @@ See [taglib-ruby](https://github.com/robinst/taglib-ruby) for instructions on
 how to install `taglib` on a few different operating systems.
 
 ```
-gem install audiothority --pre
+gem install audiothority
 ```
 
 This will make the `audiothorian` command available.
