@@ -1,7 +1,7 @@
 # audiothority
 
-[![Build Status](https://travis-ci.org/mthssdrbrg/audiothority.png?branch=master)](https://travis-ci.org/mthssdrbrg/audiothority)
-[![Coverage Status](https://coveralls.io/repos/mthssdrbrg/audiothority/badge.png?branch=master)](https://coveralls.io/r/mthssdrbrg/audiothority?branch=master)
+[![Build Status](https://travis-ci.org/mthssdrbrg/audiothority.svg?branch=master)](https://travis-ci.org/mthssdrbrg/audiothority)
+[![Coverage Status](https://img.shields.io/coveralls/mthssdrbrg/audiothority.svg)](https://coveralls.io/r/mthssdrbrg/audiothority?branch=master)
 
 Audiothority is a small command-line app for finding albums (or directories if
 you prefer) with inconsistent tags among the tracks, and either enforce some
